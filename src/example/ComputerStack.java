@@ -16,6 +16,9 @@ import java.util.Scanner;
  *
  * after scanning the expression, pop numbers and operations from stack and
  *     calculate. When the number stack has only one number, the number is the result.
+ * @limitation:
+ * only + - * /
+ * infix expression
  */
 public class ComputerStack {
     public static void main(String[] args) {
@@ -33,6 +36,7 @@ public class ComputerStack {
         int oper=0;
         int res=0;
         char ch=' ';
+        String keepNum=""; //stitch multiple digits
         for(int i=0; i<expr.length(); i++){
             ch = expr.charAt(i);
             if(opeStack.isOper(ch)){
@@ -51,10 +55,33 @@ public class ComputerStack {
                     }
                 }
             }else{
-                numStack.push(ch-'0');
+                //numStack.push(ch-'0'); only single digit number
+                //when adding numbers, check next char after index
+                //define a String var to stitch
+                keepNum+=ch;
+                if(i==expr.length()-1){
+                    numStack.push(Integer.parseInt(keepNum));
+                } else {
+                    if (opeStack.isOper(expr.charAt(i + 1))) {
+                        numStack.push(Integer.parseInt(keepNum));
+                        keepNum = "";
+                    }
+                }
             }
             
         }
+        while(true){
+            //if operation stack is empty, get the final result
+            if(opeStack.isEmpty()){
+                break;
+            }
+            num1 = numStack.pop();
+            num2 = numStack.pop();
+            oper = opeStack.pop();
+            res = numStack.cal(num1, num2, oper);
+            numStack.push(res);
+        }
+        System.out.printf("The expression %s = %d",expr,res);
     }
 }
 
