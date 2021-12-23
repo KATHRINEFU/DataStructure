@@ -1,42 +1,40 @@
-package shangguigu;
+package shangguigu.linear;
 
 /**
  * @author: Kate Fu
- * @create: 2021-12-10 19:10
+ * @create: 2021-12-09 19:25
  */
-public class DoubleLinkedListDemo {
+public class SingleLinkedListDemo {
     public static void main(String[] args) {
-        DoubleLinkedList list = new DoubleLinkedList();
-        Node n1 = new Node(1,"gydus");
-        Node n2 = new Node(2,"cdgywui");
-        Node n3 = new Node(3,"cdhusiuio");
+        //initiate head node
+        HeroNode head = new HeroNode(0,"","");
+        HeroNode n1 = new HeroNode(1,"宋江","及时雨");
+        HeroNode n2 = new HeroNode(2,"卢俊义","玉麒麟");
+        HeroNode n3 = new HeroNode(3,"吴用","智多星");
+        SingleLinkedList list = new SingleLinkedList();
+        list.addByOrder(n1);
 
-        list.addNode(n1);
-        list.addNode(n2);
-        list.addNode(n3);
+        list.addByOrder(n2);
+        list.addByOrder(n3);
 
-        list.modifyNode(1,"iqqcdfe");
+        list.modifyNode(1,"付宇","及时雨");
 
         list.deleteNode(2);
 
         list.showList();
-
     }
 }
-class DoubleLinkedList{
-    //initiate head node
-    Node head = new Node(0,"");
 
-    public Node getHead(){
-        return head;
-    }
-    public void addNode(Node node){
-        Node temp = head;
+class SingleLinkedList{
+    //initiate head node
+    HeroNode head = new HeroNode(0,"","");
+
+    public void addNode(HeroNode node){
+        HeroNode temp = head;
         while(temp.next!=null){
             temp = temp.next;
         }
         temp.next=node;
-        node.pre=temp;
     }
 
     public void showList(){
@@ -44,14 +42,14 @@ class DoubleLinkedList{
             System.out.println("The list is empty");
             return;
         }
-        Node temp = head.next;
+        HeroNode temp = head.next;
         while(temp!=null){
             System.out.println(temp);
             temp = temp.next;
         }
     }
-    public void addByOrder(Node node){
-        Node temp = head;
+    public void addByOrder(HeroNode node){
+        HeroNode temp = head;
         boolean isAdd = true;
         while(temp.next!=null){
             if (node.no == temp.next.no){
@@ -72,22 +70,19 @@ class DoubleLinkedList{
         }
     }
 
-    public void modifyNode(int no, String name){
-        Node temp = head;
+    public void modifyNode(int no, String name, String nickname){
+        HeroNode temp = head;
         while(temp.next!=null){
             if(temp.no == no){
                 temp.name= name;
+                temp.nickname = nickname;
             }
             temp = temp.next;
         }
     }
 
     public void deleteNode(int no){
-        if(head.next==null){
-            System.out.println("The list is empty!");
-            return;
-        }
-        Node temp = head;
+        HeroNode temp = head;
         boolean isDelete = false;
         while(temp.next!=null){
             if(temp.no==no){
@@ -97,37 +92,32 @@ class DoubleLinkedList{
             temp = temp.next;
         }
         if(!isDelete){
-            System.out.println("the no does not exist");
+            System.out.println("The no does not exist");
         }else{
-            temp.pre.next = temp.next;
-            if(temp.next!=null)
-                temp.next.pre = temp.pre;
+            temp.next = temp.next.next;
         }
-
     }
 }
 
-class Node {
-    public int no;
-    public String name;
-    public Node next;
-    public Node pre;
+class HeroNode {
+  public int no;
+  public String name;
+  public String nickname;
+  public HeroNode next;
 
-    public Node(int no, String name) {
-        this.no = no;
-        this.name = name;
-    }
+  public HeroNode(int no, String name, String nickname) {
+    this.no = no;
+    this.name = name;
+    this.nickname = nickname;
+  }
 
     @Override
     public String toString() {
-        return "HeroNode{"
-        + "no="
-        + no
-        + ", name='"
-        + name
-        + '\''
-        + '}';
+        return "HeroNode{" +
+                "no=" + no +
+                ", name='" + name + '\'' +
+                ", nickname='" + nickname + '\'' +
+                '}';
     }
+
 }
-
-

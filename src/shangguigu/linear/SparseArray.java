@@ -1,4 +1,4 @@
-package shangguigu;
+package shangguigu.linear;
 
 /**
  * @author: Kate Fu

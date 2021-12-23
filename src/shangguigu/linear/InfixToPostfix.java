@@ -1,4 +1,4 @@
-package shangguigu;
+package shangguigu.linear;
 
 import java.util.ArrayList;
 import java.util.List;
